@@ -1,0 +1,137 @@
+# Multifamily Site Assumptions Calculator
+### Meeting summary & Phase-1 tool requirements
+
+**Source meeting:** Brandon, Sofia & Justin Connect — Multi-Family Assumptions Calculator
+**Date:** June 30, 2026 (~31 min)
+**Prepared for:** Sofia, Chris & Hanna
+**Status:** Pre-prototype — requirements outline
+
+---
+
+## 1. Overview
+
+This document captures the working session in which Brandon walked Justin and Sofia through the manual spreadsheet and pro forma he currently uses to evaluate multifamily development sites, and outlines the requirements for turning that workbook into an automated web tool. The goal of the tool is a fast feasibility "gut check": a developer or BD lead selects a site and gets a defensible read on whether a deal is worth pursuing, without hand-assembling data from a half-dozen sources.
+
+The first part summarizes what was discussed. The second part translates that into structured requirements for the Phase-1 build.
+
+---
+
+## 2. Meeting summary
+
+### 2.1 Participants and roles
+
+- **Brandon Hoch** — multifamily business development; owns the existing manual workbook and pro forma, and is the domain expert defining what the tool must produce.
+- **Justin Ehart** — driving the automation/tooling effort; frames this as the first in an eventual portfolio of practice-area calculators.
+- **Sofia Ozambela** — front-end and prototyping; will study Brandon's workbook and build wireframes and an interactive prototype in Cursor.
+
+Likely additional contributors named: **Chris** (CoStar API and appraiser data) and **Hanna** (back end).
+
+### 2.2 Purpose and vision
+
+Today every input is hand-entered, pulled manually from CoStar and similar sources. Brandon wants a tool where selecting a site automatically assembles the key inputs, the user layers in their own design assumptions, and the tool returns a rough cost-and-feasibility picture that can be exported as a one-page PDF summary.
+
+The conceptual spine that emerged: **the tool fetches the site and the market; the user shapes the deal.** Nearly everything discussed splits into data pulled automatically (and stamped with its source) versus values the user enters or overrides — Brandon's "blue cells."
+
+### 2.3 Phased approach
+
+Brandon was explicit about building in chunks rather than all at once, in priority order:
+
+1. **Comp analysis** — the highest priority. The blended comp average is the instant market read that reveals whether a deal clears the client's rent threshold before anyone touches a spreadsheet.
+2. **Matching metrics** — letting the team input their own design and unit data to compare against the selected comps.
+3. **Cost collation** — pulling hard costs, land, acreage, and projected property taxes together into a quick feasibility look.
+
+Full P&L and return metrics (IRR, cash flow, stabilized rent roll, payroll, utilities, turnover cost, ancillary income) were **explicitly deferred** to later phases.
+
+### 2.4 Data sources and tools discussed
+
+- **Atlas** — existing geospatial/parcel tool; its API can feed the new front end with site data (parcel, zoning, soils, wetlands, acreage, tax valuation).
+- **CoStar** — source for unit comps. Justin had inquired about API access and was scheduled to meet their rep (Eli) after 10am; Chris is the likely owner of that integration.
+- **FRED & Sightline** — economic/cost-trend data (FRED ≈ 870K data points) to inform material and cost pricing and show clients month-over-month movement.
+- **Firm pay-app history** — internal cost benchmark drawn from ~15 nationwide projects.
+- **Vantage Point** — Justin set up the project here.
+- **Cursor** — Sofia's prototyping environment.
+
+### 2.5 Action items / next steps
+
+- Brandon to send Sofia his pro forma and workbook to study.
+- Sofia to review the workbook, gather questions, and build wireframes and an interactive prototype.
+- Justin to meet the CoStar rep to discuss API access, and to add Sofia to that conversation.
+- Chris to own CoStar API and appraiser data; Hanna to own the back end.
+
+---
+
+## 3. Phase-1 tool requirements
+
+### 3.1 Core interaction model
+
+- **R-1** Every field must be visibly typed as either *pulled* (fetched automatically, shown with a source badge) or *input* (user-entered or adjusted).
+- **R-2** All pulled values must be overridable by the user.
+- **R-3** Pulled values must display provenance (source + date, e.g. "CoStar · Apr 2026") so the distinction carries into the client-facing output.
+
+### 3.2 Functional requirements by step
+
+**Step 1 — Site**
+- **R-4** User selects a site by address, parcel ID, lat/long, or map click.
+- **R-5** On selection, auto-populate a site summary from Atlas: acreage, zoning, wetlands, soils, flood zone, current tax valuation.
+
+**Step 2 — Comps**
+- **R-6** Retrieve comparable properties from CoStar for the selected site.
+- **R-7** For each comp, show unit count, distance, unit mix / bed-bath, average square footage, average rent, and lease-up percentage.
+- **R-8** User curates 3–5 relevant comps from the returned set.
+- **R-9** Compute and display a blended market read (avg rent $/SF and avg lease-up) from the selected comps, updating live as selection changes.
+- **R-10** Allow an optional client rent hurdle; when set, flag the blended read as above/below the hurdle (go/no-go signal).
+
+**Step 3 — Program**
+- **R-11** User enters product type, building type, and number of buildings.
+- **R-12** User adds/removes unit types (e.g. A1 = 1bd/1ba) with a count for each; the unit mix tabulates automatically.
+- **R-13** Square footage per unit type is hand-entered by the user.
+- **R-14** Rent per unit defaults to the comp blend from Step 2 and remains editable.
+- **R-15** User enters parking: total count, the split across tucked-under / covered / surface, plus chargeable count and parking rent.
+- **R-16** Auto-compute total units, average unit size, and density.
+
+**Step 4 — Costs & feasibility**
+- **R-17** Hard cost ($/SF) defaults from FRED/Sightline plus the firm's pay-app history; overridable.
+- **R-18** Soft costs apply default ROM percentages (A&E, lease-up/marketing); overridable.
+- **R-19** Property taxes and municipal/impact fees (water, sewer, stormwater connections) auto-calculate from the municipality; overridable.
+- **R-20** Land price pulls from appraiser data where available, otherwise user-entered.
+- **R-21** Lease-up pace (units/month) is a required user assumption and drives the projected project duration.
+- **R-22** Produce a one-page feasibility summary: total cost, cost/unit, rents today, stabilized rents, density, average unit size, project duration, land price.
+- **R-23** Export the summary to PDF.
+
+### 3.3 Minimum required user inputs
+
+To produce a first gut-check, the user must supply only three things; everything else is pulled-with-override or a defaulted assumption:
+
+1. The site (Step 1).
+2. The curated comp set (Step 2).
+3. The unit program — types, counts, square footage, parking (Step 3).
+
+### 3.4 Data sources & integrations
+
+| Source | Provides | Owner |
+|---|---|---|
+| Regrid (API) | Parcel, zoning, acreage, tax valuation, flood zone | Front end (via proxy) |
+| CoStar (API) | Unit comps, rents, lease-up | Chris |
+| FRED / Sightline | Cost-trend / pricing data | Back end |
+| Pay-app history | Internal hard-cost benchmark (~15 projects) | Back end |
+| Appraiser data | Land price | Chris |
+
+### 3.5 In scope vs deferred
+
+**Phase 1 (in scope):** site auto-fill, comp analysis with blended read and hurdle flag, program inputs with auto-tabulation, pulled-with-override cost collation, one-page PDF gut-check.
+
+**Deferred to later phases:** full pro forma and P&L, return metrics (IRR, cash flow), stabilized rent roll, payroll and staffing, utilities per door, turnover cost, ancillary income (application/admin fees, pet rent, storage), and additional practice-area calculators within the dashboard portfolio.
+
+---
+
+## 4. Open decisions
+
+These affect the layout and architecture and should be settled before the prototype commits to them:
+
+1. **Wizard vs live document** — strict forward-only steps, or a live document that recomputes the summary as the user moves between steps. The latter matches the real workflow but is harder to build cleanly.
+2. **Map placement** — Step 1 only, or a persistent rail across Steps 1–2 if comp selection becomes map-first.
+3. **Comp selection model** — a checkable list (mirrors CoStar's filter-then-export) versus map-pin selection (more spatial and demo-friendly, heavier to build).
+
+---
+
+*Internal working document — Phase-1 requirements, pre-prototype.*
