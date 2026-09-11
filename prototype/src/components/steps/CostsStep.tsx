@@ -133,6 +133,7 @@ export function CostsStep() {
 
       <StepExportButton
         onClick={exportFeasibilityReport}
+        label="Export feasibility report"
         disabled={!feasibility}
       />
     </Stack>

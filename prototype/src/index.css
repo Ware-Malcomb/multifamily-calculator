@@ -37,8 +37,8 @@ body {
 
 .development-tools-logo {
   display: block;
-  width: 96px;
-  height: 48px;
+  width: 40px;
+  height: 20px;
   object-fit: contain;
   background: transparent;
 }
@@ -482,6 +482,11 @@ body {
 }
 
 @media print {
+  /* Only the shared feasibility report — never the live Costs/Program UI */
+  body > *:not(.feasibility-report-print) {
+    display: none !important;
+  }
+
   .no-print {
     display: none !important;
   }
@@ -492,49 +497,13 @@ body {
   }
 
   html,
-  body,
-  #root {
+  body {
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
     height: 100% !important;
     overflow: hidden !important;
     background: #fff !important;
-  }
-
-  /* Collapse app chrome so it cannot inset or shrink the report */
-  .mantine-AppShell-header,
-  .mantine-AppShell-navbar,
-  .mantine-AppShell-aside,
-  .mantine-AppShell-footer {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-  }
-
-  .mantine-AppShell-root {
-    --app-shell-header-offset: 0px !important;
-    --app-shell-navbar-offset: 0px !important;
-    --app-shell-aside-offset: 0px !important;
-    --app-shell-footer-offset: 0px !important;
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  .mantine-AppShell-main,
-  .suite-main,
-  .suite-main-inner {
-    display: block !important;
-    width: 100% !important;
-    max-width: none !important;
-    height: 100% !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: transparent !important;
   }
 
   /*

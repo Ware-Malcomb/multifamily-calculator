@@ -28,7 +28,7 @@ const SUITE_HEADER_HEIGHT = 96;
 export function SuiteShell() {
   const isDesktop = useMediaQuery('(min-width: 48em)');
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
-  const [toolsCollapsed, setToolsCollapsed] = useState(true);
+  const [toolsCollapsed, setToolsCollapsed] = useState(false);
   const [activeToolId, setActiveToolId] = useState<ToolId>('multifamily-assumptions');
   const [homeKey, setHomeKey] = useState(0);
   const activeTool = getToolById(activeToolId)!;

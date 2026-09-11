@@ -16,13 +16,22 @@ export function ToolPageHeader({
   onHomeClick,
 }: ToolPageHeaderProps) {
   return (
-    <Group gap="sm" pb={withBottomPadding ? 'md' : 0}>
+    <Group gap={6} align="flex-start" pb={withBottomPadding ? 'md' : 0}>
+      <div>
+        <Title order={3} className="logo-title logo-title--suite">
+          {title}
+        </Title>
+        <Text size="xs" c="dimmed">
+          {subtitle}
+        </Text>
+      </div>
       <Anchor
         href="/"
         aria-label="Go to home"
         underline="never"
         c="inherit"
         display="flex"
+        style={{ marginTop: 2 }}
         onClick={(e) => {
           if (!onHomeClick) return;
           e.preventDefault();
@@ -36,14 +45,6 @@ export function ToolPageHeader({
           aria-hidden="true"
         />
       </Anchor>
-      <div>
-        <Title order={3} className="logo-title logo-title--suite" py={4}>
-          {title}
-        </Title>
-        <Text size="xs" c="dimmed">
-          {subtitle}
-        </Text>
-      </div>
     </Group>
   );
 }

@@ -19,7 +19,7 @@ export function FeasibilityReportDocument() {
   const hurdleSet = rentHurdlePerSf !== null && rentHurdlePerSf > 0;
 
   return createPortal(
-    <div className="feasibility-report-print">
+    <div id="feasibility-report-document" className="feasibility-report-print">
       <div className="feasibility-report-hero">
         <SiteMapPreview site={site} variant="report" />
       </div>
