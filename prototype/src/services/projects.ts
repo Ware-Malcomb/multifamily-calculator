@@ -100,28 +100,23 @@ export function saveToMyProjects(
   const siteKey = siteKeyFromState(state);
   const now = new Date().toISOString();
 
-  const replaceAt = (index: number): SavedProject => {
-    const updated: SavedProject = {
-      ...projects[index],
-      name: resolvedName,
-      clientName: resolvedClient,
-      siteKey,
-      savedAt: now,
-      state: snapshot,
-    };
-    projects[index] = updated;
-    writeProjects(projects);
-    return updated;
-  };
-
+  // Only replace when the caller explicitly updates a known project id.
+  // Same site / address must be allowed as separate saved runs.
   if (existingId) {
     const index = projects.findIndex((project) => project.id === existingId);
-    if (index >= 0) return replaceAt(index);
-  }
-
-  if (siteKey) {
-    const index = projects.findIndex((project) => project.siteKey === siteKey);
-    if (index >= 0) return replaceAt(index);
+    if (index >= 0) {
+      const updated: SavedProject = {
+        ...projects[index],
+        name: resolvedName,
+        clientName: resolvedClient,
+        siteKey,
+        savedAt: now,
+        state: snapshot,
+      };
+      projects[index] = updated;
+      writeProjects(projects);
+      return updated;
+    }
   }
 
   const created: SavedProject = {

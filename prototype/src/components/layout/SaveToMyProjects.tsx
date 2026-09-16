@@ -3,6 +3,7 @@ import {
   Autocomplete,
   Box,
   Button,
+  Checkbox,
   Group,
   Modal,
   Stack,
@@ -43,6 +44,8 @@ export function SaveToMyProjects({
 }) {
   const { state, loadCalculatorState } = useCalculator();
   const [projectId, setProjectId] = useState<string | null>(null);
+  const [loadedFromLibrary, setLoadedFromLibrary] = useState(false);
+  const [updateExisting, setUpdateExisting] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [saveOpen, setSaveOpen] = useState(false);
@@ -53,10 +56,17 @@ export function SaveToMyProjects({
   const [inviteSave, setInviteSave] = useState(false);
   const savedTimer = useRef<number | undefined>(undefined);
   const hadAddress = useRef(Boolean(state.site?.address?.trim()));
+  const siteIdentity = state.site?.regridId || state.site?.address?.trim() || '';
 
   const hasAddress = Boolean(state.site?.address?.trim());
+  const existingProject = projectId ? getMyProject(projectId) : undefined;
 
   useEffect(() => () => window.clearTimeout(savedTimer.current), []);
+
+  useEffect(() => {
+    setProjectId(null);
+    setLoadedFromLibrary(false);
+  }, [siteIdentity]);
 
   useEffect(() => {
     if (hasAddress && !hadAddress.current) {
@@ -77,15 +87,19 @@ export function SaveToMyProjects({
   const openSaveDialog = () => {
     if (!hasAddress) return;
     const existing = projectId ? getMyProject(projectId) : undefined;
+    const canUpdate = Boolean(existing && loadedFromLibrary);
     setNameDraft(existing?.name && existing.name !== addressName ? existing.name : '');
     setClientDraft(existing?.clientName ?? '');
     setClientOptions(listClientNames());
+    setUpdateExisting(canUpdate);
     setSaveOpen(true);
   };
 
   const confirmSave = () => {
-    const saved = saveToMyProjects(state, projectId, nameDraft, clientDraft);
+    const idToUpdate = updateExisting && existingProject ? projectId : null;
+    const saved = saveToMyProjects(state, idToUpdate, nameDraft, clientDraft);
     setProjectId(saved.id);
+    setLoadedFromLibrary(Boolean(idToUpdate));
     setSaveOpen(false);
     setJustSaved(true);
     window.clearTimeout(savedTimer.current);
@@ -100,12 +114,16 @@ export function SaveToMyProjects({
   const handleOpenProject = (project: SavedProject) => {
     loadCalculatorState(project.state);
     setProjectId(project.id);
+    setLoadedFromLibrary(true);
     setLibraryOpen(false);
   };
 
   const handleDeleteProject = (id: string) => {
     deleteMyProject(id);
-    if (projectId === id) setProjectId(null);
+    if (projectId === id) {
+      setProjectId(null);
+      setLoadedFromLibrary(false);
+    }
     refreshProjects();
   };
 
@@ -195,12 +213,19 @@ export function SaveToMyProjects({
               if (e.key === 'Enter') confirmSave();
             }}
           />
+          {existingProject && (
+            <Checkbox
+              checked={updateExisting}
+              onChange={(e) => setUpdateExisting(e.currentTarget.checked)}
+              label={`Update existing “${existingProject.name}” instead of creating a new project`}
+            />
+          )}
           <Group justify="flex-end" gap="xs">
             <Button variant="default" onClick={() => setSaveOpen(false)}>
               Cancel
             </Button>
             <Button color={semanticColors.pulled} onClick={confirmSave}>
-              Save
+              {updateExisting && existingProject ? 'Update' : 'Save'}
             </Button>
           </Group>
         </Stack>

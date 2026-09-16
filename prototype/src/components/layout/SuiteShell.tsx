@@ -23,7 +23,7 @@ import { MultifamilyAssumptionsTool } from '../tools/MultifamilyAssumptionsTool'
 
 const TOOLS_PANEL_EXPANDED = 260;
 const TOOLS_PANEL_COLLAPSED = 80;
-const SUITE_HEADER_HEIGHT = 96;
+const SUITE_HEADER_HEIGHT = 120;
 
 export function SuiteShell() {
   const isDesktop = useMediaQuery('(min-width: 48em)');
@@ -55,7 +55,7 @@ export function SuiteShell() {
       bg="#ffffff"
     >
       <AppShell.Header bg="#ffffff" className="no-print">
-        <Group h="100%" px="lg" pt="lg" pb="md" justify="space-between" align="flex-start">
+        <Group h="100%" px="xl" pt="xl" pb="lg" justify="space-between" align="flex-start">
           <Group align="flex-start">
             <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="md" size="sm" mt={4} />
             <ToolPageHeader

@@ -6,10 +6,10 @@ const toTuple = (shades: readonly string[]): MantineColorsTuple =>
 
 export const theme = createTheme({
   primaryColor: 'digitalBlue',
-  fontFamily: 'Inter, system-ui, sans-serif',
+  fontFamily: '"DM Sans", system-ui, sans-serif',
   headings: {
-    fontFamily: '"Stack Sans Headline", system-ui, sans-serif',
-    fontWeight: '600',
+    fontFamily: '"Plus Jakarta Sans", "DM Sans", system-ui, sans-serif',
+    fontWeight: '500',
   },
   defaultRadius: 'md',
   white: '#ffffff',
