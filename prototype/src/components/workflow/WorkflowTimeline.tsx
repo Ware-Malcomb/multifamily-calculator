@@ -17,23 +17,9 @@ const STEPS: { id: StepId; label: string; shortLabel: string; icon: typeof IconM
   { id: 'costs', label: 'Costs & feasibility', shortLabel: 'Costs', icon: IconCalculator },
 ];
 
-function isStepComplete(id: StepId, site: boolean, compCount: number): boolean {
-  switch (id) {
-    case 'site':
-      return site;
-    case 'comps':
-      return compCount >= 3;
-    case 'program':
-      return site;
-    case 'costs':
-      return site;
-  }
-}
-
 export function WorkflowTimeline() {
   const { state, setActiveStep } = useCalculator();
-  const { activeStep, site, selectedCompIds } = state;
-  const hasSite = site !== null;
+  const { activeStep, completedSteps } = state;
 
   return (
     <Box w="100%">
@@ -41,7 +27,7 @@ export function WorkflowTimeline() {
         {STEPS.map((step, index) => {
           const Icon = step.icon;
           const isActive = activeStep === step.id;
-          const isComplete = isStepComplete(step.id, hasSite, selectedCompIds.length);
+          const isComplete = completedSteps.includes(step.id);
           const isLast = index === STEPS.length - 1;
 
           const circleColor = isActive

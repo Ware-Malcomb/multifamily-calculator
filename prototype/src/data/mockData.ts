@@ -1,7 +1,7 @@
 import type { CompProperty, CostAssumptions, UnitType } from '../types';
 import { MOCK_COST_BENCHMARKS } from '../services/costs';
 
-const COSTARS = { name: 'CoStar', date: 'Apr 2026' } as const;
+const HELLO_DATA = { name: 'HelloData', date: 'Apr 2026' } as const;
 
 export const MOCK_COMPS: CompProperty[] = [
   {
@@ -18,7 +18,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_685,
     leaseUpPct: 94,
     yearBuilt: 2023,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
   {
     id: 'comp-2',
@@ -35,7 +35,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_520,
     leaseUpPct: 91,
     yearBuilt: 2018,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
   {
     id: 'comp-3',
@@ -52,7 +52,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_890,
     leaseUpPct: 96,
     yearBuilt: 2024,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
   {
     id: 'comp-4',
@@ -68,7 +68,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_575,
     leaseUpPct: 88,
     yearBuilt: 2015,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
   {
     id: 'comp-5',
@@ -84,7 +84,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_425,
     leaseUpPct: 92,
     yearBuilt: 2021,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
   {
     id: 'comp-6',
@@ -100,7 +100,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_740,
     leaseUpPct: 93,
     yearBuilt: 2012,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
   {
     id: 'comp-7',
@@ -117,7 +117,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_610,
     leaseUpPct: 90,
     yearBuilt: 2022,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
   {
     id: 'comp-8',
@@ -134,7 +134,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_955,
     leaseUpPct: 95,
     yearBuilt: 2025,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
   {
     id: 'comp-9',
@@ -150,7 +150,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_480,
     leaseUpPct: 87,
     yearBuilt: 2016,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
   {
     id: 'comp-10',
@@ -166,7 +166,7 @@ export const MOCK_COMPS: CompProperty[] = [
     avgRent: 1_395,
     leaseUpPct: 89,
     yearBuilt: 2010,
-    source: COSTARS,
+    source: HELLO_DATA,
   },
 ];
 

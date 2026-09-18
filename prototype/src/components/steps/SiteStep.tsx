@@ -28,8 +28,7 @@ export function SiteStep() {
     searchSites,
     selectSiteByRegridId,
     clearSite,
-    updateSiteField,
-    setActiveStep,
+    advanceFromStep,
   } = useCalculator();
   const { site } = state;
 
@@ -93,7 +92,7 @@ export function SiteStep() {
       setAdvanceBlocked(true);
       return;
     }
-    setActiveStep('comps');
+    advanceFromStep('site', 'comps');
   };
 
   return (
@@ -114,6 +113,11 @@ export function SiteStep() {
           >
             <Combobox.Target>
               <InputBase
+                className={!site ? 'site-address-input site-address-input--invite' : 'site-address-input'}
+                classNames={{
+                  input: 'site-address-input__field',
+                  label: 'site-address-input__label',
+                }}
                 label="Site address"
                 placeholder="Search by address or parcel ID"
                 value={search}
@@ -184,7 +188,7 @@ export function SiteStep() {
           <SiteMapPreview site={site} />
 
           <Paper withBorder p="lg" radius="md" bg="#ffffff">
-            <SiteSummary site={site} onUpdate={updateSiteField} />
+            <SiteSummary site={site} />
           </Paper>
         </>
       )}

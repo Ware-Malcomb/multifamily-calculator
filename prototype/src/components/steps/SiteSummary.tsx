@@ -11,7 +11,6 @@ import { SourceBadge } from '../common/SourceBadge';
 
 interface SiteSummaryProps {
   site: SiteData;
-  onUpdate: <K extends keyof SiteData>(key: K, value: SiteData[K]) => void;
 }
 
 function CollapsibleSection({
@@ -65,7 +64,7 @@ function SectionTitle({ children, source }: { children: string; source?: DataSou
   );
 }
 
-export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
+export function SiteSummary({ site }: SiteSummaryProps) {
   const src = site.source;
 
   return (
@@ -91,7 +90,7 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
               source={src}
               description={REGRID_FIELD_HINTS.parcelnumb}
               value={site.parcelId}
-              onChange={(v) => onUpdate('parcelId', v)}
+              readOnly
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12 }}>
@@ -101,7 +100,7 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
               source={src}
               description={REGRID_FIELD_HINTS.owner}
               value={site.owner ?? ''}
-              onChange={(v) => onUpdate('owner', v)}
+              readOnly
             />
           </Grid.Col>
         </Grid>
@@ -118,8 +117,7 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
               source={src}
               description={REGRID_FIELD_HINTS.ll_gisacre}
               value={site.acreage || undefined}
-              missing={site.acreage <= 0}
-              onChange={(v) => onUpdate('acreage', v)}
+              readOnly
               suffix=" ac"
               decimalScale={1}
             />
@@ -131,7 +129,7 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
               source={src}
               description={REGRID_FIELD_HINTS.ll_gissqft}
               value={site.sqFt}
-              onChange={(v) => onUpdate('sqFt', v)}
+              readOnly
               suffix=" SF"
             />
           </Grid.Col>
@@ -142,7 +140,7 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
               source={src}
               description="EPSG:4326"
               value={site.lat}
-              onChange={(v) => onUpdate('lat', v)}
+              readOnly
               decimalScale={5}
             />
           </Grid.Col>
@@ -153,7 +151,7 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
               source={src}
               description="EPSG:4326"
               value={site.lon}
-              onChange={(v) => onUpdate('lon', v)}
+              readOnly
               decimalScale={5}
             />
           </Grid.Col>
@@ -171,7 +169,7 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
               source={src}
               description={REGRID_FIELD_HINTS.scity}
               value={site.city ?? ''}
-              onChange={(v) => onUpdate('city', v)}
+              readOnly
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 4 }}>
@@ -181,7 +179,7 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
               source={src}
               description={REGRID_FIELD_HINTS.county}
               value={site.county ?? ''}
-              onChange={(v) => onUpdate('county', v)}
+              readOnly
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 4 }}>
@@ -191,7 +189,7 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
               source={src}
               description={REGRID_FIELD_HINTS.state2}
               value={site.state ?? ''}
-              onChange={(v) => onUpdate('state', v)}
+              readOnly
             />
           </Grid.Col>
         </Grid>
@@ -202,47 +200,47 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
       <SectionBadgeProvider kind="pulled" source={src}>
         <SectionTitle source={src}>{REGRID_SCHEMA_CATEGORIES.landUse}</SectionTitle>
         <Grid>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <TextDataField
-            label="Land use"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.lbcs_function_desc}
-            value={site.landUse}
-            onChange={(v) => onUpdate('landUse', v)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <TextDataField
-            label="Zoning code"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.zoning}
-            value={site.zoning}
-            onChange={(v) => onUpdate('zoning', v)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <TextDataField
-            label="Zoning type"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.zoning_type}
-            value={site.zoningType}
-            onChange={(v) => onUpdate('zoningType', v)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <TextDataField
-            label="Zoning subtype"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.zoning_subtype}
-            value={site.zoningSubtype}
-            onChange={(v) => onUpdate('zoningSubtype', v)}
-          />
-        </Grid.Col>
-      </Grid>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextDataField
+              label="Land use"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.lbcs_function_desc}
+              value={site.landUse}
+              readOnly
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextDataField
+              label="Zoning code"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.zoning}
+              value={site.zoning}
+              readOnly
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextDataField
+              label="Zoning type"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.zoning_type}
+              value={site.zoningType}
+              readOnly
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextDataField
+              label="Zoning subtype"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.zoning_subtype}
+              value={site.zoningSubtype}
+              readOnly
+            />
+          </Grid.Col>
+        </Grid>
       </SectionBadgeProvider>
 
       <Divider my="xs" />
@@ -250,72 +248,71 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
       <SectionBadgeProvider kind="pulled" source={src}>
         <SectionTitle source={src}>{REGRID_SCHEMA_CATEGORIES.assessment}</SectionTitle>
         <Grid>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <NumberDataField
-            label="Total parcel value"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.parval}
-            value={site.taxValuation || undefined}
-            missing={site.taxValuation <= 0}
-            onChange={(v) => onUpdate('taxValuation', v)}
-            prefix="$"
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <NumberDataField
-            label="Land value"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.landval}
-            value={site.landValue}
-            onChange={(v) => onUpdate('landValue', v)}
-            prefix="$"
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <NumberDataField
-            label="Improvement value"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.improvval}
-            value={site.improvementValue}
-            onChange={(v) => onUpdate('improvementValue', v)}
-            prefix="$"
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <NumberDataField
-            label="Annual tax"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.taxamt}
-            value={site.annualTax}
-            onChange={(v) => onUpdate('annualTax', v)}
-            prefix="$"
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <TextDataField
-            label="Valuation type"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.parvaltype}
-            value={site.valuationType ?? ''}
-            onChange={(v) => onUpdate('valuationType', v)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <TextDataField
-            label="Tax year"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.taxyear}
-            value={site.taxYear ?? ''}
-            onChange={(v) => onUpdate('taxYear', v)}
-          />
-        </Grid.Col>
-      </Grid>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <NumberDataField
+              label="Total parcel value"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.parval}
+              value={site.taxValuation || undefined}
+              readOnly
+              prefix="$"
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <NumberDataField
+              label="Land value"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.landval}
+              value={site.landValue}
+              readOnly
+              prefix="$"
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <NumberDataField
+              label="Improvement value"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.improvval}
+              value={site.improvementValue}
+              readOnly
+              prefix="$"
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <NumberDataField
+              label="Annual tax"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.taxamt}
+              value={site.annualTax}
+              readOnly
+              prefix="$"
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextDataField
+              label="Valuation type"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.parvaltype}
+              value={site.valuationType ?? ''}
+              readOnly
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextDataField
+              label="Tax year"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.taxyear}
+              value={site.taxYear ?? ''}
+              readOnly
+            />
+          </Grid.Col>
+        </Grid>
       </SectionBadgeProvider>
 
       <Divider my="xs" />
@@ -323,40 +320,40 @@ export function SiteSummary({ site, onUpdate }: SiteSummaryProps) {
       <SectionBadgeProvider kind="pulled" source={src}>
         <SectionTitle source={src}>{REGRID_SCHEMA_CATEGORIES.environment}</SectionTitle>
         <Grid>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <TextDataField
-            label="FEMA flood zone"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.fema_flood_zone}
-            value={site.floodZone}
-            onChange={(v) => onUpdate('floodZone', v)}
-            rating={parseFloodZoneRating(site.floodZone)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <TextDataField
-            label="Natural hazard risk"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.fema_nri_risk_rating}
-            value={site.floodRisk ?? ''}
-            onChange={(v) => onUpdate('floodRisk', v)}
-            rating={parseNriRiskRating(site.floodRisk)}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 6 }}>
-          <TextDataField
-            label="Terrain roughness"
-            kind="pulled"
-            source={src}
-            description={REGRID_FIELD_HINTS.roughness_rating}
-            value={site.terrainRoughness ?? ''}
-            onChange={(v) => onUpdate('terrainRoughness', v)}
-            rating={parseRoughnessRating(site.terrainRoughness)}
-          />
-        </Grid.Col>
-      </Grid>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextDataField
+              label="FEMA flood zone"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.fema_flood_zone}
+              value={site.floodZone}
+              readOnly
+              rating={parseFloodZoneRating(site.floodZone)}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextDataField
+              label="Natural hazard risk"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.fema_nri_risk_rating}
+              value={site.floodRisk ?? ''}
+              readOnly
+              rating={parseNriRiskRating(site.floodRisk)}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextDataField
+              label="Terrain roughness"
+              kind="pulled"
+              source={src}
+              description={REGRID_FIELD_HINTS.roughness_rating}
+              value={site.terrainRoughness ?? ''}
+              readOnly
+              rating={parseRoughnessRating(site.terrainRoughness)}
+            />
+          </Grid.Col>
+        </Grid>
       </SectionBadgeProvider>
     </Stack>
   );

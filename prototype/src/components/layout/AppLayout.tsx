@@ -21,7 +21,7 @@ export function AppLayout({
       <Box className="tool-main">
         <Box className="tool-main-content">
           {showWorkflow ? (
-            <Box pt="lg" pb="xs">
+            <Box pt="lg" pb="lg">
               <WorkflowTimeline />
             </Box>
           ) : (

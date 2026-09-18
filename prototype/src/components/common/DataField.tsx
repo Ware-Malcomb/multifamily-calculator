@@ -63,7 +63,7 @@ export function TextDataField({
   missing,
 }: TextDataFieldProps) {
   const editable = kind !== 'computed' && onChange && !readOnly;
-  const isMissing = missing ?? (kind === 'pulled' && isBlankText(value));
+  const isMissing = missing ?? (editable && kind === 'pulled' && isBlankText(value));
   const hideSourceBadge = useHideFieldSourceBadge(kind, source, overridden) && !isMissing;
   const displayValue = value === NOT_IN_REGRID ? '' : value;
 
@@ -111,7 +111,7 @@ export function NumberDataField({
   missing,
 }: NumberDataFieldProps) {
   const editable = kind !== 'computed' && onChange && !readOnly;
-  const isMissing = missing ?? (kind === 'pulled' && (value === undefined || Number.isNaN(value)));
+  const isMissing = missing ?? (editable && kind === 'pulled' && (value === undefined || Number.isNaN(value)));
   const hideSourceBadge = useHideFieldSourceBadge(kind, source, overridden) && !isMissing;
 
   return (

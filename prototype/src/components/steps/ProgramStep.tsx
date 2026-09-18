@@ -119,7 +119,7 @@ export function ProgramStep() {
     resetParkingType,
     resetRentsToDefault,
     resetUnitRentToDefault,
-    setActiveStep,
+    advanceFromStep,
   } = useCalculator();
 
   const { site, unitTypes, parking, productType, buildingType, buildingCount } = state;
@@ -705,7 +705,7 @@ export function ProgramStep() {
         </SimpleGrid>
       </Paper>
 
-      <StepNextButton onClick={() => setActiveStep('costs')} />
+      <StepNextButton onClick={() => advanceFromStep('program', 'costs')} />
     </Stack>
   );
 }

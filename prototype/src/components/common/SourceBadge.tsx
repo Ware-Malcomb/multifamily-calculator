@@ -1,6 +1,6 @@
 import { Badge, Tooltip } from '@mantine/core';
 import { IconAlertTriangle, IconCalculator, IconDatabase, IconPencil } from '@tabler/icons-react';
-import { semanticColors } from '../../theme/palette';
+import { semanticColors, sourceProviderColors } from '../../theme/palette';
 import type { DataSource } from '../../types';
 
 type FieldKind = 'pulled' | 'input' | 'computed';
@@ -19,6 +19,14 @@ interface SourceBadgeProps {
   source?: DataSource;
   overridden?: boolean;
   missing?: boolean;
+}
+
+function badgeColor(kind: FieldKind, source: DataSource | undefined, overridden?: boolean): string {
+  if (overridden) return semanticColors.overridden;
+  if (kind === 'pulled' && source?.name) {
+    return sourceProviderColors[source.name] ?? kindConfig.pulled.color;
+  }
+  return kindConfig[kind].color;
 }
 
 export function SourceBadge({ kind, source, overridden, missing }: SourceBadgeProps) {
@@ -53,7 +61,7 @@ export function SourceBadge({ kind, source, overridden, missing }: SourceBadgePr
       <Badge
         size="xs"
         variant="light"
-        color={overridden ? semanticColors.overridden : config.color}
+        color={badgeColor(kind, source, overridden)}
         leftSection={<Icon size={10} />}
         style={{ cursor: 'default' }}
       >

@@ -13,6 +13,8 @@
   --color-lemon-lime-contrast: #748c0b;
   --color-digital-blue: #256eff;
   --color-soft-periwinkle: #a891de;
+  --color-orchid-pink: #d6409f;
+  --color-sunflower: #e8b40a;
   --font-body: "DM Sans", system-ui, sans-serif;
   --font-display: "Plus Jakarta Sans", "DM Sans", system-ui, sans-serif;
   --font-logo: "Stack Sans Notch", "Plus Jakarta Sans", system-ui, sans-serif;
@@ -51,8 +53,8 @@ body {
 
 .development-tools-logo {
   display: block;
-  width: 40px;
-  height: 20px;
+  width: 32px;
+  height: 16px;
   object-fit: contain;
   background: transparent;
 }
@@ -189,6 +191,39 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .save-project-btn[data-ready='true'][data-invite] {
+    animation: none;
+  }
+}
+
+.site-address-input--invite .site-address-input__field {
+  border-color: color-mix(in srgb, var(--color-digital-blue) 55%, white);
+  background: color-mix(in srgb, var(--color-digital-blue) 7%, white);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-digital-blue) 18%, transparent);
+  animation: site-address-invite 2.4s ease-in-out infinite;
+}
+
+.site-address-input--invite .site-address-input__field:focus {
+  border-color: var(--color-digital-blue);
+  animation: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-digital-blue) 28%, transparent);
+}
+
+.site-address-input .site-address-input__label {
+  margin-bottom: 0.45rem;
+}
+
+@keyframes site-address-invite {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-digital-blue) 16%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-digital-blue) 28%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-address-input--invite .site-address-input__field {
     animation: none;
   }
 }
@@ -408,7 +443,9 @@ body {
 .comps-map-filter-tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.1rem 0.4rem;
+  gap: 0.3rem;
+  flex-shrink: 0;
+  padding: 0.28rem 0.55rem;
   border-radius: 999px;
   border: 1px solid var(--mantine-color-gray-3);
   background: #ffffff;
@@ -826,7 +863,7 @@ body {
     width: 100%;
     margin: 0;
     margin-top: auto;
-    padding: 0.12in 0.5in;
+    padding: 0.2in 0.5in;
     border-top: 0.08in solid #fff;
     background: #e04403;
     color: #ffffff;
@@ -854,7 +891,7 @@ body {
 
   .feasibility-report-footer__logo {
     display: block;
-    height: 0.36in;
+    height: 0.58in;
     width: auto;
     flex-shrink: 0;
   }

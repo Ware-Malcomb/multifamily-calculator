@@ -13,7 +13,6 @@ import {
   Table,
   Text,
   Title,
-  UnstyledButton,
 } from '@mantine/core';
 import {
   IconArrowDown,
@@ -38,7 +37,7 @@ const MIN_RADIUS_MI = 0.5;
 const RECENT_YEAR_BUILT_MIN = 2020;
 
 export function CompsStep() {
-  const { state, blended, toggleComp, retainSelectedComps, setRentHurdle, setActiveStep } =
+  const { state, blended, toggleComp, retainSelectedComps, setRentHurdle, advanceFromStep } =
     useCalculator();
   const { allComps, selectedCompIds, rentHurdlePerSf, site } = state;
   const [hurdleInput, setHurdleInput] = useState<string | number>(rentHurdlePerSf ?? '');
@@ -96,7 +95,7 @@ export function CompsStep() {
       <div>
         <Title order={2}>Comps</Title>
         <Text c="dimmed" mt={4}>
-          Select at least 3 relevant comps from CoStar to view a live blended market read.
+          Select at least 3 relevant comps from HelloData to view a live blended market read.
         </Text>
       </div>
 
@@ -131,22 +130,13 @@ export function CompsStep() {
           </Group>
         </Paper>
 
-        <Group gap="xs" justify="flex-end">
-          <UnstyledButton
-            className="comps-map-filter-tag"
-            data-active={recentOnly || undefined}
-            onClick={() => setRecentOnly((v) => !v)}
-            aria-pressed={recentOnly}
-          >
-            Recent
-          </UnstyledButton>
-        </Group>
-
         <CompsMapPreview
           site={site}
           comps={visibleComps}
           selectedCompIds={selectedCompIds}
           radiusMi={radiusMi}
+          recentOnly={recentOnly}
+          onToggleRecent={() => setRecentOnly((v) => !v)}
         />
       </Stack>
 
@@ -366,7 +356,7 @@ export function CompsStep() {
       </Paper>
 
       <StepNextButton
-        onClick={() => setActiveStep('program')}
+        onClick={() => advanceFromStep('comps', 'program')}
         disabled={!selectionValid}
       />
     </Stack>

@@ -28,6 +28,8 @@ interface CalculatorContextValue {
   siteLoading: boolean;
   siteError: string | null;
   setActiveStep: (step: StepId) => void;
+  /** Advance via Next: marks the current step complete, then opens the next. */
+  advanceFromStep: (from: StepId, to: StepId) => void;
   searchSites: (query: string) => Promise<TypeaheadResult[]>;
   selectSiteByRegridId: (ll_uuid: string) => Promise<void>;
   clearSite: () => void;
@@ -59,6 +61,7 @@ const CalculatorContext = createContext<CalculatorContextValue | null>(null);
 
 const initialState: CalculatorState = {
   activeStep: 'site',
+  completedSteps: [],
   site: null,
   allComps: MOCK_COMPS,
   selectedCompIds: ['comp-1', 'comp-2', 'comp-3'],
@@ -193,11 +196,24 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
       siteLoading,
       siteError,
       setActiveStep: (step) => setState((s) => ({ ...s, activeStep: step })),
+      advanceFromStep: (from, to) =>
+        setState((s) => ({
+          ...s,
+          activeStep: to,
+          completedSteps: s.completedSteps.includes(from)
+            ? s.completedSteps
+            : [...s.completedSteps, from],
+        })),
       searchSites,
       selectSiteByRegridId,
       clearSite: () => {
         setSiteError(null);
-        setState((s) => ({ ...s, site: null }));
+        setState((s) => ({
+          ...s,
+          site: null,
+          completedSteps: [],
+          activeStep: 'site',
+        }));
       },
       updateSiteField: (key, value) =>
         setState((s) => (s.site ? { ...s, site: { ...s.site, [key]: value } } : s)),
@@ -385,7 +401,11 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
       loadCalculatorState: (next) => {
         setSiteError(null);
         setSiteLoading(false);
-        setState(JSON.parse(JSON.stringify(next)) as CalculatorState);
+        const cloned = JSON.parse(JSON.stringify(next)) as CalculatorState;
+        setState({
+          ...cloned,
+          completedSteps: Array.isArray(cloned.completedSteps) ? cloned.completedSteps : [],
+        });
       },
     }),
     [state, blended, feasibility, siteLoading, siteError, searchSites, selectSiteByRegridId],

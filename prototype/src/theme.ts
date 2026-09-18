@@ -20,6 +20,8 @@ export const theme = createTheme({
     softPeriwinkle: toTuple(paletteShades.softPeriwinkle),
     pumpkinSpice: toTuple(paletteShades.pumpkinSpice),
     lobsterPink: toTuple(paletteShades.lobsterPink),
+    orchidPink: toTuple(paletteShades.orchidPink),
+    sunflower: toTuple(paletteShades.sunflower),
   },
   other: {
     appBackground: '#ffffff',

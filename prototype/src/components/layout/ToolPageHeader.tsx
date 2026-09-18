@@ -11,12 +11,12 @@ export interface ToolPageHeaderProps {
 
 export function ToolPageHeader({
   title,
-  subtitle = 'Powered by Ware Malcomb',
+  subtitle = 'Powered by Ware Malcomb Digital Transformation',
   withBottomPadding = true,
   onHomeClick,
 }: ToolPageHeaderProps) {
   return (
-    <Group gap={2} align="flex-start" pb={withBottomPadding ? 'md' : 0}>
+    <Group gap={0} align="flex-start" pb={withBottomPadding ? 'md' : 0}>
       <div>
         <Title order={3} className="logo-title logo-title--suite">
           {title}

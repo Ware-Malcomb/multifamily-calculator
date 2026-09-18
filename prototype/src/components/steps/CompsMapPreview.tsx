@@ -1,5 +1,5 @@
-import { Badge, Box, Group, Stack, Text } from '@mantine/core';
-import { IconMinus, IconPlus } from '@tabler/icons-react';
+import { Badge, Box, Group, Stack, Text, UnstyledButton } from '@mantine/core';
+import { IconFilter, IconMinus, IconPlus } from '@tabler/icons-react';
 import type { CompProperty, SiteData } from '../../types';
 import { palette, paletteShades, semanticColors } from '../../theme/palette';
 import { SatelliteMapBackdrop } from './SatelliteMapBackdrop';
@@ -9,6 +9,8 @@ interface CompsMapPreviewProps {
   comps: CompProperty[];
   selectedCompIds: string[];
   radiusMi: number;
+  recentOnly: boolean;
+  onToggleRecent: () => void;
 }
 
 const SVG_PADDING = 8;
@@ -34,6 +36,8 @@ export function CompsMapPreview({
   comps,
   selectedCompIds,
   radiusMi,
+  recentOnly,
+  onToggleRecent,
 }: CompsMapPreviewProps) {
   const maxMiles = Math.max(radiusMi, 0.5) * 1.15;
   const radiusSvg = milesToSvg(radiusMi, maxMiles);
@@ -121,15 +125,27 @@ export function CompsMapPreview({
         Prototype map · {radiusMi} mi
       </Badge>
 
-      <Stack className="site-map-preview__footer" gap={2}>
-        <Text size="sm" fw={600} lineClamp={1}>
-          {site.address}
-        </Text>
-        <Text size="xs" c="dimmed">
-          {comps.length} comps within {radiusMi} mi
-          {selectedCompIds.length > 0 ? ` · ${selectedCompIds.length} selected` : ''}
-        </Text>
-      </Stack>
+      <Group className="site-map-preview__footer" justify="space-between" align="flex-end" wrap="nowrap" gap="md">
+        <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
+          <Text size="sm" fw={600} lineClamp={1}>
+            {site.address}
+          </Text>
+          <Text size="xs" c="dimmed">
+            {comps.length} comps within {radiusMi} mi
+            {selectedCompIds.length > 0 ? ` · ${selectedCompIds.length} selected` : ''}
+          </Text>
+        </Stack>
+        <UnstyledButton
+          className="comps-map-filter-tag"
+          data-active={recentOnly || undefined}
+          onClick={onToggleRecent}
+          aria-pressed={recentOnly}
+          aria-label="Filter to comps new this year"
+        >
+          <IconFilter size={12} stroke={2} />
+          New This Year
+        </UnstyledButton>
+      </Group>
     </Box>
   );
 }

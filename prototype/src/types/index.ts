@@ -160,6 +160,8 @@ export interface FeasibilitySummary {
 
 export interface CalculatorState {
   activeStep: StepId;
+  /** Steps the user has advanced past via Next (timeline progress). */
+  completedSteps: StepId[];
   site: SiteData | null;
   allComps: CompProperty[];
   selectedCompIds: string[];

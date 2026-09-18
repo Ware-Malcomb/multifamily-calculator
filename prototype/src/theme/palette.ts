@@ -6,6 +6,10 @@ export const palette = {
   lemonLimeContrast: '#748c0b',
   digitalBlue: '#256eff',
   softPeriwinkle: '#a891de',
+  /** Magenta-rose for source tags (distinct from lobster / pumpkin) */
+  orchidPink: '#d6409f',
+  /** Warm gold-yellow for source tags (distinct from lemon-lime / pumpkin) */
+  sunflower: '#e8b40a',
 } as const;
 
 export type PaletteColor = keyof typeof palette;
@@ -72,6 +76,30 @@ export const paletteShades = {
     '#5a2222',
     '#2d1111',
   ],
+  orchidPink: [
+    '#fce8f4',
+    '#f9d1e9',
+    '#f3a3d3',
+    '#ed75bd',
+    '#e747a7',
+    '#d6409f',
+    '#ab337f',
+    '#80265f',
+    '#561a40',
+    '#2b0d20',
+  ],
+  sunflower: [
+    '#fdf8e6',
+    '#fbf1cd',
+    '#f7e39b',
+    '#f3d569',
+    '#efc737',
+    '#e8b40a',
+    '#ba9008',
+    '#8b6c06',
+    '#5d4804',
+    '#2e2402',
+  ],
 } as const;
 
 /** Semantic mapping for field tags and UI accents */
@@ -84,3 +112,11 @@ export const semanticColors = {
   error: 'lobsterPink',
   warning: 'pumpkinSpice',
 } as const;
+
+/** Per-provider colors for pulled source badges (avoids repeating field-kind colors). */
+export const sourceProviderColors: Record<string, string> = {
+  Regrid: 'digitalBlue',
+  HelloData: 'digitalBlue',
+  'FRED + Pay-app avg': 'pumpkinSpice',
+  'City of Austin': 'sunflower',
+};
